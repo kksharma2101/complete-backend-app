@@ -16,6 +16,7 @@ const userSchema = new Schema(
     password: {
       type: String,
       minLength: [8, "password minimum length is 8 character"],
+      select: false,
     },
     avatar: {
       public_id: { type: String },
@@ -59,6 +60,9 @@ userSchema.methods = {
         expiresIn: 7 * 24 * 60 * 60 * 1000,
       }
     );
+  },
+  comparePassword: async function (plaintextPassword) {
+    return await bcrypt.compare(plaintextPassword, this.password);
   },
 };
 
